@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books Library</title>
+    <style>
+        /* Basic reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h1 {
+            margin-bottom: 20px;
+        }
+        .form-container {
+            width: 100%;
+            max-width: 800px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+        .form-container input[type="text"],
+        .form-container select,
+        .form-container button {
+            padding: 8px;
+            font-size: 16px;
+        }
+        .form-container button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #0056b3;
+        }
+        .book-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            width: 100%;
+            max-width: 1000px;
+        }
+        .book-card {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .book-card:hover {
+            transform: translateY(-5px);
+        }
+        .book-card img {
+            width: 100%;
+            height: auto;
+        }
+        .book-details {
+            padding: 15px;
+        }
+        .book-title {
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .book-author {
+            font-size: 1em;
+            color: #777;
+            margin-bottom: 15px;
+        }
+        .delete-button {
+            background-color: #dc3545;
+            color: #fff;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+        .delete-button:hover {
+            background-color: #c82333;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Books Library</h1>
+
+    <div class="form-container">
+        <!-- Search and Sort Form -->
+        <form action="/" method="get" style="display: flex; width: 100%; gap: 10px;">
+            <input type="text" id="search" name="search" value="{{ search_query }}" placeholder="Search by title or author">
+            <select id="sort" name="sort_by">
+                <option value="title" {{ title_selected }}>Sort by Title</option>
+                <option value="author" {{ author_selected }}>Sort by Author</option>
+            </select>
+            <button type="submit">Search</button>
+        </form>
+    </div>
+
+    <div class="book-container">
+        {% for book in books %}
+            <div class="book-card">
+                <img src="{{ book.cover_image }}" alt="Cover of {{ book.title }}">
+                <div class="book-details">
+                    <div class="book-title">{{ book.title }}</div>
+                    <div class="book-author">by {{ book.author }}</div>
+                    <!-- Delete Book Form -->
+                    <form action="{{ url_for('delete_book', book_id=book['id']) }}" method="post">
+                        <button type="submit" class="delete-button" onclick="return confirm('Are you sure you want to delete this book?');">Delete Book</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

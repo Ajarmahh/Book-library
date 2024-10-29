@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  </head>
+  <body>
+  <h1>Add a New Book</h1>
+
+    <!-- Display success message if it exists -->
+    {% if success_message %}
+        <p>{{ success_message }}</p>
+    {% elif failed_message %}
+        <p>{{ failed_message }}</p>
+    {% endif %}
+  <!-- Add the form here -->
+  <form action="/add_book" method="POST">
+    <!-- This will create a dropdown list -->
+    <label for="author">Choose an author:</label>
+<select id="author" name="author">
+  <!-- Loop through authors and create an option for each -->
+  {% for author in authors %}
+    <option value="{{ author.id }}">{{ author.name }}</option>
+  {% endfor %}
+</select><br><br>
+<!--    <label for="title">Book title:</label>-->
+  <input type="text" id="title" name="title" required><br><br>
+  <label for="isbn">ISBN</label>
+  <input type="text" id="isbn" name="isbn" required> <br><br>
+  <label for="publication_year">Publication year:</label>
+  <input type="date" id="publication_year" name="publication_year" required><br><br>
+  <input type="submit" value="Add Book">
+  </form>
+
+  </body>
+</html>
